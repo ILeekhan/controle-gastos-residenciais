@@ -92,7 +92,13 @@ function App() {
       alert('Pessoa cadastrada com sucesso!');
     } catch (err: any) {
       console.error('Erro ao cadastrar pessoa:', err.response?.data);
-      const mensagem = err.response?.data?.title || err.response?.data || 'Erro ao cadastrar pessoa.';
+      const dadosErro = err.response?.data;
+      const mensagem = dadosErro?.Mensagem
+        || dadosErro?.mensagem
+        || dadosErro?.title
+        || (typeof dadosErro === 'string'
+          ? dadosErro.replace(/[{}"']/g, '').replace(/mensagem:|Mensagem:/i, '').trim()
+          : 'Erro ao cadastrar pessoa.');
       alert(mensagem);
     } finally {
       setCarregando(false);
@@ -122,7 +128,13 @@ function App() {
       alert('Transação cadastrada com sucesso!');
     } catch (err: any) {
       console.error('Erro ao cadastrar transação:', err.response?.data);
-      const mensagem = err.response?.data || 'Erro ao cadastrar transação.';
+      // ✅ Tratamento definitivo: mostra apenas o texto limpo
+      const dadosErro = err.response?.data;
+      const mensagem = dadosErro?.Mensagem
+        || dadosErro?.mensagem
+        || (typeof dadosErro === 'string'
+          ? dadosErro.replace(/[{}"']/g, '').replace(/mensagem:|Mensagem:/i, '').trim()
+          : 'Erro ao cadastrar transação.');
       alert(mensagem);
     } finally {
       setCarregando(false);
@@ -137,9 +149,13 @@ function App() {
       await api.delete(`/Pessoas/${id}`);
       await carregarDados();
       alert('Pessoa excluída com sucesso!');
-    } catch (err) {
-      console.error('Erro ao excluir:', err);
-      alert('Erro ao excluir pessoa.');
+    } catch (err: any) {
+      console.error('Erro ao excluir:', err.response?.data);
+      const dadosErro = err.response?.data;
+      const mensagem = dadosErro?.Mensagem
+        || dadosErro?.mensagem
+        || 'Erro ao excluir pessoa.';
+      alert(mensagem);
     } finally {
       setCarregando(false);
     }
