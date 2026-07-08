@@ -58,7 +58,10 @@ Desenvolver um sistema para gerenciar pessoas e transações financeiras, seguin
 
 ## 📁 Estrutura do Projeto
 controle-gastos-residenciais/
+
+
 ├── Backend/ # API e regras de negócio
+
 
 │ ├── Data/ # Contexto e configuração do banco
 
